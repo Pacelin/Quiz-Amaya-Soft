@@ -7,7 +7,7 @@ namespace Game.Misc
 {
     public class GameObjectGrid : MonoBehaviour, IPointerClickHandler
     {
-        public event Action<Vector2Int> OnCellClick;
+        public event Action<int> OnCellClick;
         
         [SerializeField] private Vector2 _cellSize;
         [SerializeField] private Vector2 _cellSpacing;
@@ -34,8 +34,10 @@ namespace Game.Misc
             
             var row = index / _columnsCount;
             var column = index % _columnsCount;
-            var xOffset = _bounds.min.x + column * (_cellSpacing.x + _cellSize.x);
-            var yOffset = _bounds.min.y + row * (_cellSpacing.y + _cellSize.y);
+            var xOffset = _bounds.min.x + column * (_cellSpacing.x + _cellSize.x) + 
+                          _cellSpacing.x + _cellSize.x * 0.5f;
+            var yOffset = _bounds.min.y + row * (_cellSpacing.y + _cellSize.y) + 
+                          _cellSpacing.y + _cellSize.y * 0.5f;
             cellTransform.position = transform.position + new Vector3(xOffset, yOffset);
         }
         
@@ -56,7 +58,7 @@ namespace Game.Misc
             var yHit = point.y - _bounds.min.y;
             var column = (int) Mathf.Clamp(xHit / (_cellSize.x + _cellSpacing.x), 0, _columnsCount - 1);
             var row = (int) Mathf.Clamp(yHit / (_cellSize.y + _cellSpacing.y), 0, _rowsCount - 1);
-            OnCellClick?.Invoke(new Vector2Int(column, row));
+            OnCellClick?.Invoke(row * _columnsCount + column);
         }
     }
 }

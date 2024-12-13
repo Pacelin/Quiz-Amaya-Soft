@@ -1,12 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.Gameplay.Cards;
+using UnityEngine;
+using VContainer.Unity;
 
 namespace Game.Gameplay.Levels
 {
-    public class GameLevelState
+    public class GameLevelState : IStartable
     {
+        public event Action OnStart;
+        public event Action OnNext;
+        public event Action OnFinish;
+
         public int GoalIndex => _goalIndex;
         public IReadOnlyList<CardData> Cards => _cards;
+        public LevelData LevelData => _levelData;
 
         private readonly CardBundleGenerator _cardBundleGenerator;
         private readonly LevelsCollection _levels;
@@ -27,12 +35,19 @@ namespace Game.Gameplay.Levels
         {
             _level = 0;
             InitializeLevel();
+            OnStart?.Invoke();
         }
         
         public void Next()
         {
-            _level++;
-            InitializeLevel();
+            if (_level < _levels.Count - 1)
+            {
+                _level++;
+                InitializeLevel();
+                OnNext?.Invoke();
+            }
+            else
+                OnFinish?.Invoke();
         }
 
         private void InitializeLevel()

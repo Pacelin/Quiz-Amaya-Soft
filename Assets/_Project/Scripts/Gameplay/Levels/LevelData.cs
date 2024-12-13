@@ -3,7 +3,7 @@
 namespace Game.Gameplay.Levels
 {
     [System.Serializable]
-    public class LevelData
+    public struct LevelData
     {
         public int RowsCount => _rowsCount;
         public int ColumnsCount => _columnsCount;

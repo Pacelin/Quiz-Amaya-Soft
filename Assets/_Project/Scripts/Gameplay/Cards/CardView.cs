@@ -1,17 +1,19 @@
-﻿using UnityEngine;
+﻿using Game.Misc.Animations;
+using UnityEngine;
 
 namespace Game.Gameplay.Cards
 {
     public class CardView : MonoBehaviour
     {
-        [SerializeField] private SpriteRenderer _backgroundRenderer;
+        public TweenEffect CreationEffect => _creationEffect;
+        public TweenEffect CorrectEffect => _correctEffect;
+        public TweenEffect IncorrectEffect => _incorrectEffect;
+        
+        [SerializeField] private TweenEffect _creationEffect;
+        [SerializeField] private TweenEffect _correctEffect;
+        [SerializeField] private TweenEffect _incorrectEffect;
         [SerializeField] private SpriteRenderer _iconRenderer;
 
-        public void SetBackgroundColor(Color color)
-        {
-            _backgroundRenderer.color = color;
-        }
-        
         public void SetData(CardData cardData)
         {
             _iconRenderer.sprite = cardData.Icon;
