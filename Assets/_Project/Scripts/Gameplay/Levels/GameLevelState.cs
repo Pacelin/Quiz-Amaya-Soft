@@ -3,35 +3,42 @@ using Game.Gameplay.Cards;
 
 namespace Game.Gameplay.Levels
 {
-    
     public class GameLevelState
     {
-        private readonly CardBundlesCollection _cardBundles;
+        public int GoalIndex => _goalIndex;
+        public IReadOnlyList<CardData> Cards => _cards;
+
+        private readonly CardBundleGenerator _cardBundleGenerator;
         private readonly LevelsCollection _levels;
 
-        private readonly Dictionary<CardBundle, List<CardData>> _bundlesGoals;
-        
-        private int _rowsCount;
-        private int _columnsCount;
         private int _level;
+        private LevelData _levelData;
+
+        private int _goalIndex;
         private CardData[] _cards;
         
-        public GameLevelState(CardBundlesCollection cardBundles, LevelsCollection levels)
+        public GameLevelState(CardBundleGenerator cardBundleGenerator, LevelsCollection levels)
         {
-            _cardBundles = cardBundles;
+            _cardBundleGenerator = cardBundleGenerator;
             _levels = levels;
-
-            _bundlesGoals = new Dictionary<CardBundle, List<CardData>>();
-            _level = 0;
         }
 
+        public void Start()
+        {
+            _level = 0;
+            InitializeLevel();
+        }
+        
         public void Next()
         {
-            var levelData = _levels[_level++];
-            _rowsCount = levelData.RowsCount;
-            _columnsCount = levelData.ColumnsCount;
-            _cards = new CardData[_rowsCount * _columnsCount];
-            
+            _level++;
+            InitializeLevel();
+        }
+
+        private void InitializeLevel()
+        {
+            _levelData = _levels[_level];
+            _cards = _cardBundleGenerator.Generate(_levelData.ColumnsCount * _levelData.RowsCount, out _goalIndex);
         }
     }
 }

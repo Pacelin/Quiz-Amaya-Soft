@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Game.Gameplay.Cards
 {
@@ -15,21 +17,5 @@ namespace Game.Gameplay.Cards
         IEnumerator IEnumerable.GetEnumerator() => _bundles.GetEnumerator();
 
         public CardBundle this[int index] => _bundles[index];
-    }
-    public class CardBundleGenerator
-    {
-        private readonly CardBundlesCollection _cardBundles;
-        private readonly Dictionary<CardBundle, List<CardData>> _bundlesGoals;
-
-        public CardBundleGenerator(CardBundlesCollection cardBundles)
-        {
-            _cardBundles = cardBundles;
-            _bundlesGoals = new Dictionary<CardBundle, List<CardData>>();
-        }
-
-        public CardData[] Generate(int count)
-        {
-            
-        }
     }
 }

@@ -22,6 +22,7 @@ namespace Game.Gameplay
                 .WithParameter(_cardsGrid.transform);
             builder.RegisterInstance(_cardBundles);
             builder.RegisterInstance(_levels);
+            builder.Register<CardBundleGenerator>(Lifetime.Singleton);
         }
     }
 }
