@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Game.Misc;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Gameplay.Cards
 {

@@ -10,7 +10,9 @@ namespace Game.Misc.Animations
         [SerializeField] private Vector3 _strength;
         [SerializeField] private Ease _ease = Ease.Linear;
         
+        // I know that this method empty, but this effect don't have a prepare phase
         protected override void PrepareInternal() { }
+        
         protected override Tween PlayInternal()
         {
             return _target.DOShakePosition(_duration, _strength)

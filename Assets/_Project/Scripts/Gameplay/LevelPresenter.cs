@@ -33,13 +33,16 @@ namespace Game.Gameplay
         {
             _levelState.OnStart += OnStartLevel;
             _levelState.OnNext += OnNextLevel;
-            _cardsGridView.OnClickCard += OnClickCard; 
+            _levelState.OnReset += OnResetLevel;
+            _cardsGridView.OnClickCard += OnClickCard;
+            _levelGoalView.CreationEffect.Prepare();
         }
 
         public void Dispose()
         {
             _levelState.OnStart -= OnStartLevel;
             _levelState.OnNext -= OnNextLevel;
+            _levelState.OnReset -= OnResetLevel;
             _cardsGridView.OnClickCard -= OnClickCard; 
         }
 
@@ -49,16 +52,12 @@ namespace Game.Gameplay
             _cardsGridView.CardCreationSequence.SetEffects(_cards.Select(card => card.CreationEffect).ToArray());
             _cardsGridView.CardCreationSequence.Prepare();
             _cardsGridView.CardCreationSequence.Play();
-            _levelGoalView.CreationEffect.Prepare();
             _levelGoalView.CreationEffect.Play();
         }
 
         private void OnNextLevel()
         {
-            foreach (var card in _cards)
-                Object.Destroy(card.gameObject);
-            _cards.Clear();
-            _cardsGridView.SetGridSize(_levelState.LevelData.RowsCount, _levelState.LevelData.ColumnsCount);
+            ResetGrid();
             
             for (int i = 0; i < _levelState.Cards.Count; i++)
             {
@@ -71,6 +70,20 @@ namespace Game.Gameplay
             _levelGoalView.SetGoal(_levelState.Cards[_levelState.GoalIndex].Identifier);
         }
 
+        private void OnResetLevel()
+        {
+            ResetGrid();
+            _levelGoalView.CreationEffect.Prepare();
+        }
+        
+        private void ResetGrid()
+        {
+            foreach (var card in _cards)
+                Object.Destroy(card.gameObject);
+            _cards.Clear();
+            _cardsGridView.SetGridSize(_levelState.LevelData.RowsCount, _levelState.LevelData.ColumnsCount);
+        }
+        
         private async void OnClickCard(int index)
         {
             if (_cardsGridView.CardCreationSequence.IsPlaying)

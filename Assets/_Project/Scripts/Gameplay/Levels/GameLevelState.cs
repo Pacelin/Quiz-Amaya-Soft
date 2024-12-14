@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Gameplay.Cards;
-using UnityEngine;
 using VContainer.Unity;
 
 namespace Game.Gameplay.Levels
@@ -11,12 +10,13 @@ namespace Game.Gameplay.Levels
         public event Action OnStart;
         public event Action OnNext;
         public event Action OnFinish;
-
+        public event Action OnReset;
+        
         public int GoalIndex => _goalIndex;
         public IReadOnlyList<CardData> Cards => _cards;
         public LevelData LevelData => _levelData;
 
-        private readonly CardBundleGenerator _cardBundleGenerator;
+        private readonly ICardBundleGenerator _cardBundleGenerator;
         private readonly LevelsCollection _levels;
 
         private int _level;
@@ -25,16 +25,17 @@ namespace Game.Gameplay.Levels
         private int _goalIndex;
         private CardData[] _cards;
         
-        public GameLevelState(CardBundleGenerator cardBundleGenerator, LevelsCollection levels)
+        public GameLevelState(ICardBundleGenerator cardBundleGenerator, LevelsCollection levels)
         {
             _cardBundleGenerator = cardBundleGenerator;
             _levels = levels;
+            _level = 0;
+            _levelData = _levels[_level];
         }
 
         public void Start()
         {
-            _level = 0;
-            InitializeLevel();
+            GenerateLevel();
             OnStart?.Invoke();
         }
         
@@ -42,18 +43,22 @@ namespace Game.Gameplay.Levels
         {
             if (_level < _levels.Count - 1)
             {
-                _level++;
-                InitializeLevel();
+                _levelData = _levels[++_level];
+                GenerateLevel();
                 OnNext?.Invoke();
             }
             else
                 OnFinish?.Invoke();
         }
 
-        private void InitializeLevel()
+        public void Reset()
         {
+            _level = 0;
             _levelData = _levels[_level];
-            _cards = _cardBundleGenerator.Generate(_levelData.ColumnsCount * _levelData.RowsCount, out _goalIndex);
+            OnReset?.Invoke();
         }
+        
+        private void GenerateLevel() =>
+            _cards = _cardBundleGenerator.Generate(_levelData.ColumnsCount * _levelData.RowsCount, out _goalIndex);
     }
 }

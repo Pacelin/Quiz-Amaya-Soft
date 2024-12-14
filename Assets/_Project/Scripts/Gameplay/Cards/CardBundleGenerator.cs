@@ -5,12 +5,12 @@ using UnityEngine.Assertions;
 
 namespace Game.Gameplay.Cards
 {
-    public class CardBundleGenerator
+    public class CardBundleGeneratorNoRepeat : ICardBundleGenerator
     {
         private readonly CardBundlesCollection _cardBundles;
         private readonly List<CardData>[] _bundlesGoals;
 
-        public CardBundleGenerator(CardBundlesCollection cardBundles)
+        public CardBundleGeneratorNoRepeat(CardBundlesCollection cardBundles)
         {
             _cardBundles = cardBundles;
             _bundlesGoals = new List<CardData>[_cardBundles.Count];
