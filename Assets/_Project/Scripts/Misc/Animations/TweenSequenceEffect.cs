@@ -21,7 +21,7 @@ namespace Game.Misc.Animations
             var seq = DOTween.Sequence()
                 .Join(_effects[0].Play());
             for (int i = 1; i < _effects.Length; i++)
-                seq.Join(_effects[i].Play(_interval));
+                seq.Join(_effects[i].Play(_interval * i));
             return seq;
         }
 

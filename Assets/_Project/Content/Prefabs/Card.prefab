@@ -78,10 +78,10 @@ MonoBehaviour:
   _joinEffects:
   - {fileID: 33360128281925167}
   _target: {fileID: 3736010654888512106}
-  _initialScale: 0.6
+  _initialScale: 0.8
   _targetScale: 1
   _duration: 1
-  _ease: 29
+  _ease: 24
 --- !u!1 &7120444989338092205
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,10 +250,10 @@ MonoBehaviour:
   _restartMode: 1
   _joinEffects: []
   _target: {fileID: 7591953888878567195}
-  _initialScale: 0
+  _initialScale: 0.4
   _targetScale: 1
-  _duration: 0.7
-  _ease: 30
+  _duration: 0.9
+  _ease: 24
 --- !u!1 &7591953890024588989
 GameObject:
   m_ObjectHideFlags: 0

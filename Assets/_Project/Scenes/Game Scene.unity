@@ -1552,6 +1552,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 61969132}
     m_Modifications:
+    - target: {fileID: 161102925966709981, guid: 5324ad860a602284e9200c4788c7eb0c, type: 3}
+      propertyPath: _interval
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 4372541352103910984, guid: 5324ad860a602284e9200c4788c7eb0c, type: 3}
       propertyPath: m_Name
       value: Grid
